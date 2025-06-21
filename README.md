@@ -21,8 +21,8 @@ This repository provides a GPU-accelerated script for computing native contacts 
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/native-contacts-gpu.git
-cd native-contacts-gpu
+git clone (this_repo)
+cd (repo)
 pip install -r requirements.txt # install dependencies
 pip install -e .
 ```
