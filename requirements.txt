@@ -1,0 +1,2 @@
+mdtraj
+cupy-cuda12x
