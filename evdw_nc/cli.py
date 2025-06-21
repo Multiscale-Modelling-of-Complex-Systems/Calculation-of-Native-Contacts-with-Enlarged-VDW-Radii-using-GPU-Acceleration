@@ -39,9 +39,9 @@ def process_frame_gpu(frame, vdw_vec, freq_mat, inv_nframes):
             freq_mat[i0:i1, j0:j1] += mask.astype(freq_mat.dtype) * inv_nframes
 
 def main():
-    parser = argparse.ArgumentParser(description='Calculate enlarger VdW native contact frequencies using MDTraj.')
-    parser.add_argument('--s', required=True, help='PDB file (structure)')
-    parser.add_argument('--f', required=True, help='Trajectory file (i.e. xtc)')
+    parser = argparse.ArgumentParser(description='Calculate VdW contact frequencies using MDTraj.')
+    parser.add_argument('--s', required=True, help='Structure file (i.e. pdb, parm7)')
+    parser.add_argument('--f', required=True, help='Trajectory file (i.e xtc, dcd, nc)')
     parser.add_argument('--o', default='output.txt', help='Output file (default: output.txt)')
     args = parser.parse_args()
 
@@ -56,12 +56,20 @@ def main():
     print(f"[INFO] Trajectory loaded in {load_time:.1f} s")
 
     top = traj.topology
-    bb_map = {a.residue.index: a.index for a in top.atoms if a.name == 'BB'}
-    if not bb_map:
-        sys.exit("[ERROR] No BB atoms found.")
-    res_ids = sorted(bb_map)
+
+    # --- Select atoms: prefer BB, fallback to CA ---
+    atom_map = {}
+    for atom in top.atoms:
+        res_id = atom.residue.index
+        if res_id not in atom_map and atom.name in ('BB', 'CA'):
+            atom_map[res_id] = atom.index
+
+    if not atom_map:
+        sys.exit("[ERROR] No BB or CA atoms found.")
+
+    res_ids = sorted(atom_map)
     res_ids = [r + 1 for r in res_ids]
-    atom_idx = [bb_map[r - 1] for r in res_ids]
+    atom_idx = [atom_map[r - 1] for r in res_ids]
     coords = traj.xyz[:, atom_idx, :]  # in nm
 
     n_frames, n_res, _ = coords.shape
@@ -69,10 +77,12 @@ def main():
 
     # Convert VDW radii to nm
     vdw_vals = np.array([VDW_RADII.get(top.residue(r-1).name, 0) * 0.1 for r in res_ids])
+
     if GPU_AVAILABLE:
         coords = cp.asarray(coords)
         vdw_vals = cp.asarray(vdw_vals)
         freq_mat = cp.zeros((n_res, n_res), dtype=cp.float32)
+        inv_nframes = cp.float32(1.0 / n_frames)
     else:
         freq_mat = np.zeros((n_res, n_res), dtype=np.float32)
         inv_nframes = np.float32(1.0 / n_frames)
@@ -120,3 +130,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
