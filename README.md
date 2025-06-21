@@ -29,8 +29,8 @@ pip install -r requirements.txt
 ```bash
 git clone https://github.com/yourusername/native-contacts-gpu.git
 cd native-contacts-gpu
-# install dependencies
-pip install -r requirements.txt
+pip install -r requirements.txt # install dependencies
+pip install -e .
 ```
 
 
