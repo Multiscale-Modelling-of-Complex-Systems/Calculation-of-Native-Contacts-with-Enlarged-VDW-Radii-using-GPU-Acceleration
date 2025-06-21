@@ -14,8 +14,8 @@ This repository provides a GPU-accelerated script for computing native contacts 
 - 
 ### Requirements
 - Python ≥ 3.7
-- MDAnalysis
 - NumPy
+- MDAnalysis
 - CuPy v12.x *(depending on cuda version)*
 
 Install dependencies:
