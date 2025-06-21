@@ -23,8 +23,13 @@ This repository provides a GPU-accelerated script for computing native contacts 
 ```bash
 git clone (this_repo)
 cd (repo)
-pip install -r requirements.txt # install dependencies
+pip install -r requirements.txt
 pip install -e .
 ```
-
-
+### Usage
+```bash
+evdw_nc --s structure.pdb --f trajectory.xtc --o output.txt
+```
+--s: Path to the input PDB file containing the protein or complex structure (residues must be numbered sequentially).
+--f: Path to the trajectory file (e.g., XTC format).
+--o: (Optional) Output filename where native contact frequencies will be saved.
