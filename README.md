@@ -10,8 +10,9 @@ This repository provides a GPU-accelerated script for computing native contacts 
 - Analyzes all frames from a given trajectory
 - Computes contact frequencies across all frames
 - Input: PDB structure + trajectory
-- Output: `output.txt` with native contact pairs and frequency 
-
+- Output: `output.txt` with native contact pairs and frequency
+- 
+### Requirements
 - Python ≥ 3.7
 - MDAnalysis
 - NumPy
