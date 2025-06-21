@@ -11,3 +11,13 @@ This repository provides a GPU-accelerated script for computing native contacts 
 - Computes contact frequencies across all frames
 - Input: PDB structure + trajectory
 - Output: `output.txt` with native contact pairs and frequency 
+
+- Python ≥ 3.7
+- MDAnalysis
+- NumPy
+- CuPy v12.x *(depending on cuda version)*
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
