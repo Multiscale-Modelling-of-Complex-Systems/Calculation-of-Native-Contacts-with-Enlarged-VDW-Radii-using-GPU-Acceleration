@@ -11,7 +11,7 @@ This repository provides a GPU-accelerated algorithm for computing native contac
 - Computes contact frequencies across all frames
 - Input: PDB structure + trajectory
 - Output: `output.txt` with native contact pairs and frequency
-- 
+   
 ### Requirements
 - Python ≥ 3.7
 - NumPy
@@ -26,6 +26,7 @@ cd (repo)
 pip install -r requirements.txt
 pip install -e .
 ```
+
 ### Usage
 ```bash
 evdw_nc --s structure.pdb --f trajectory.xtc --o output.txt
